@@ -1,26 +1,30 @@
 import Link from "next/link";
-import React from "react";
-
-const categories = [
-    {name: 'React', slug: 'react'},
-    {name: 'Web Development', slug: 'web-dev'},
-]
-
+import React, { useEffect, useState } from 'react'
+import { getCategories } from '../services'
+    
 const Header = () => {
+  const [categories, setcategories] = useState([]);
+
+    useEffect(() => {
+        getCategories()
+        .then((newCategories) => setcategories(newCategories))
+   
+    }, [])
+
   return (
     <div className="container mx-auto px-10 mb-8">
       <div className="border-b w-full inline-block border-x-blue-400 py-8">
         <div className="md:float-left block">
           <Link href="/">
             <span className="cursor-pointer font-bold text-4xl text-white">
-              Modern Blog
+              Dev's Blog
             </span>
           </Link>
         </div>
         <div className="hidden md:float-left md:contents">
             {categories.map((category) => (
                 <Link key={category.slug} href={`/category/${category.slug}`} >
-                <span className="md:float-right mt-2 align-middle text-white ml-4 font-semibold cursor-pointer">
+                <span className="md:float-right mt-2 align-middle text-white ml-4 font-semibold cursor-pointer select-none">
                     {category.name}
                 </span>
                 </Link>
